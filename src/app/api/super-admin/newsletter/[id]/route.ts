@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Auth kontrolü
@@ -16,9 +16,11 @@ export async function DELETE(
       );
     }
 
+    const { id } = await params;
+
     // Aboneyi sil
     await prisma.newsletterSubscriber.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({
