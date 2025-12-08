@@ -242,9 +242,14 @@ export function MenuContent({ restaurant }: MenuContentProps) {
                         )}
 
                         {/* Powered By */}
-                        <div className="text-sm text-gray-500">
-                            Powered by <span className="font-bold text-blue-600">QR Menü</span>
-                        </div>
+                        <a 
+                            href="https://qrmenurestoranim.com" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            Powered by <span className="font-semibold text-foreground">QR Menü</span>
+                        </a>
                     </div>
                 </div>
             </footer>
