@@ -11,7 +11,7 @@ import { SubscriptionManager } from "@/components/super-admin/subscription-manag
 export default async function RestaurantManagementDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await auth();
 
@@ -19,8 +19,10 @@ export default async function RestaurantManagementDetailPage({
     redirect("/login");
   }
 
+  const { id } = await params;
+
   const restaurant = await prisma.restaurant.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       owner: true,
       // @ts-expect-error - Prisma client type issue with subscriptionHistory
