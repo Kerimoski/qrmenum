@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { QrCode, Smartphone, TrendingUp, Palette, Globe, Zap, UtensilsCrossed, Folder, PlayCircle, Wifi, Check, Crown, DollarSign, Mail, Calendar } from "lucide-react";
 import { DevicePhoneMobileIcon, ChartBarIcon, ShoppingBagIcon, FolderIcon, CogIcon, QrCodeIcon } from "@heroicons/react/24/outline";
 import { MobilePreview } from "@/components/landing/mobile-preview";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
 export default function HomePage() {
   return (
@@ -756,6 +757,9 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </main>
   );
 }
