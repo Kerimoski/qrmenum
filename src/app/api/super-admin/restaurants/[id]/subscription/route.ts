@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db/prisma";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -16,10 +16,11 @@ export async function PATCH(
       );
     }
 
+    const { id: restaurantId } = await params;
     const { action, ...data } = await request.json();
 
     const restaurant = await prisma.restaurant.findUnique({
-      where: { id: params.id },
+      where: { id: restaurantId },
     });
 
     if (!restaurant) {
@@ -34,7 +35,7 @@ export async function PATCH(
       const { months, newEndDate, amount } = data;
 
       const updated = await prisma.restaurant.update({
-        where: { id: params.id },
+        where: { id: restaurantId },
         data: {
           subscriptionEndDate: new Date(newEndDate),
           subscriptionStatus: "ACTIVE",
@@ -45,7 +46,7 @@ export async function PATCH(
       // Geçmişe kaydet
       await prisma.subscriptionHistory.create({
         data: {
-          restaurantId: params.id,
+          restaurantId: restaurantId,
           plan: updated.subscriptionPlan,
           startDate: updated.subscriptionStartDate,
           endDate: new Date(newEndDate),
@@ -61,7 +62,7 @@ export async function PATCH(
     if (action === "markPaid") {
       // Ödeme alındı olarak işaretle
       const updated = await prisma.restaurant.update({
-        where: { id: params.id },
+        where: { id: restaurantId },
         data: {
           isPendingPayment: false,
           lastPaymentDate: new Date(),
@@ -71,7 +72,7 @@ export async function PATCH(
       // En son bekleyen ödemeyi güncelle
       const lastHistory = await prisma.subscriptionHistory.findFirst({
         where: {
-          restaurantId: params.id,
+          restaurantId: restaurantId,
           isPaid: false,
         },
         orderBy: { createdAt: "desc" },
@@ -95,7 +96,7 @@ export async function PATCH(
       const { plan, startDate, endDate, amount, notes } = data;
 
       const updated = await prisma.restaurant.update({
-        where: { id: params.id },
+        where: { id: restaurantId },
         data: {
           subscriptionPlan: plan,
           subscriptionStartDate: new Date(startDate),
@@ -108,7 +109,7 @@ export async function PATCH(
       // Geçmişe kaydet
       await prisma.subscriptionHistory.create({
         data: {
-          restaurantId: params.id,
+          restaurantId: restaurantId,
           plan,
           startDate: new Date(startDate),
           endDate: new Date(endDate),
