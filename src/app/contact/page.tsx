@@ -191,6 +191,16 @@ export default function ContactPage() {
                                 </form>
                             </CardContent>
                         </Card>
+
+                        {/* Ana Sayfaya Dön Butonu */}
+                        <div className="mt-8 text-center">
+                            <Link href="/">
+                                <Button variant="outline" size="lg" className="gap-2">
+                                    <ArrowLeft className="w-4 h-4" />
+                                    Ana Sayfaya Dön
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
 
                 </div>
