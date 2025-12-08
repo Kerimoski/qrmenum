@@ -134,7 +134,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
         session.user.role = token.role as string;
         session.user.restaurantId = token.restaurantId as string;
-        session.user.isImpersonating = token.isImpersonating;
+        session.user.isImpersonating = token.isImpersonating as boolean | undefined;
         session.user.originalUserId = token.originalUserId as string;
         session.user.originalUserName = token.originalUserName as string;
       }
