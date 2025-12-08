@@ -1,0 +1,255 @@
+// Prisma Schema - QR Menü Multi-tenant SaaS
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Kullanıcı Rolleri
+enum Role {
+  SUPER_ADMIN
+  RESTAURANT_OWNER
+}
+
+// Abonelik Paketleri
+enum SubscriptionPlan {
+  MONTHLY      // Aylık - 750₺/ay
+  YEARLY       // Yıllık - 3000₺/yıl
+  ENTERPRISE   // Kurumsal - Özel fiyat + Çoklu şube
+}
+
+// Abonelik Durumu
+enum SubscriptionStatus {
+  ACTIVE       // Aktif
+  EXPIRED      // Süresi dolmuş
+  CANCELLED    // İptal edilmiş
+}
+
+// Kullanıcılar (Restoran Sahipleri ve Süper Admin)
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String    // Hashed password
+  name          String
+  role          Role      @default(RESTAURANT_OWNER)
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  restaurant Restaurant?
+  sessions   Session[]
+
+  @@index([email])
+}
+
+// Session yönetimi için
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Restoranlar
+model Restaurant {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  subdomain    String   @unique
+  logo         String?
+  description  String?
+  videoUrl     String?  // Tanıtım videosu URL
+  qrCode       String?  // QR kod image URL veya base64
+  wifiPassword String?
+  socialMedia  Json?    // {instagram: "", facebook: "", twitter: ""}
+  workingHours Json?    // {monday: "09:00-22:00", ...}
+  themeConfig  Json?    // {primaryColor: "#000", secondaryColor: "#fff", ...}
+  languages    String[] @default(["tr"])
+  showLanguageOption Boolean @default(true)
+  isActive     Boolean  @default(true)
+  
+  // Abonelik Bilgileri
+  subscriptionPlan   SubscriptionPlan
+  subscriptionStatus SubscriptionStatus @default(ACTIVE)
+  subscriptionStartDate DateTime
+  subscriptionEndDate   DateTime
+  autoRenew          Boolean @default(false) // Otomatik yenileme
+  lastPaymentDate    DateTime? // Son ödeme alınan tarih
+  isPendingPayment   Boolean @default(false) // Bekleyen ödeme var mı
+  
+  ownerId   String @unique
+  owner     User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  categories Category[]
+  products   Product[]
+  views      MenuView[]
+  branches   Branch[]  // Kurumsal paket için şubeler
+  subscriptionHistory SubscriptionHistory[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([subdomain])
+  @@index([ownerId])
+  @@index([subscriptionStatus])
+  @@index([subscriptionEndDate])
+}
+
+// Kategoriler
+model Category {
+  id     String  @id @default(cuid())
+  name   String
+  nameEn String?
+  nameDe String?
+  nameFr String?
+  nameAr String?
+  icon   String?
+  order  Int     @default(0)
+  
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  
+  products Product[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
+  @@index([order])
+}
+
+// Ürünler
+model Product {
+  id            String  @id @default(cuid())
+  name          String
+  nameEn        String?
+  nameDe        String?
+  nameFr        String?
+  nameAr        String?
+  description   String?
+  descriptionEn String?
+  descriptionDe String?
+  descriptionFr String?
+  descriptionAr String?
+  price         Decimal @db.Decimal(10, 2)
+  image         String?
+  isActive      Boolean @default(true)
+  order         Int     @default(0)
+  
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  // Ürün varyantları (Örn: Küçük/Orta/Büyük, Sütlü/Sade vb.)
+  variants ProductVariant[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
+  @@index([categoryId])
+  @@index([isActive])
+  @@index([order])
+}
+
+// Menü Görüntülenme İstatistikleri
+model MenuView {
+  id           String   @id @default(cuid())
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  
+  viewedAt  DateTime @default(now())
+  userAgent String?
+  language  String?
+
+  @@index([restaurantId])
+  @@index([viewedAt])
+}
+
+// Ürün Varyantları
+// Örn: Pizza için Küçük / Orta / Büyük, Kahve için Sütlü / Sade vb.
+model ProductVariant {
+  id      String  @id @default(cuid())
+  name    String          // TR - Örn: Küçük, Orta, Büyük
+  nameEn  String?         // EN - Örn: Small, Medium, Large
+  price   Decimal @db.Decimal(10, 2) // Bu varyantın kendi fiyatı
+  isActive Boolean @default(true)
+  order    Int     @default(0)
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([isActive])
+  @@index([order])
+}
+
+// Şubeler (Sadece Kurumsal Paket)
+model Branch {
+  id           String   @id @default(cuid())
+  name         String   // Şube adı (örn: "Kadıköy Şubesi")
+  address      String?
+  phone        String?
+  isActive     Boolean  @default(true)
+  
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
+}
+
+// Abonelik Geçmişi (Muhasebe için)
+model SubscriptionHistory {
+  id           String   @id @default(cuid())
+  
+  plan         SubscriptionPlan
+  startDate    DateTime
+  endDate      DateTime
+  amount       Decimal  @db.Decimal(10, 2)  // Ödenen tutar
+  notes        String?  // Notlar (örn: "Manuel uzatıldı", "Yıllık paket")
+  isPaid       Boolean  @default(false)      // Ödeme alındı mı?
+  paidAt       DateTime? // Ödeme alındığı tarih
+  
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@index([restaurantId])
+  @@index([startDate])
+}
+
+// Tanıtım mail listesi
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  phone     String?
+  message   String?  @db.Text // İletişim formundan gelen mesaj
+  isActive  Boolean  @default(true) // Abonelik aktif mi?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+}
+
+
