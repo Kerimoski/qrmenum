@@ -169,7 +169,7 @@ export async function POST(req: Request) {
 
     <!-- Footer -->
     <div class="footer">
-      <a href="https://qrdijitalmenum.com" class="website-link">qrdijitalmenum.com</a>
+      <a href="https://qrmenurestoranim.com" class="website-link">qrmenurestoranim.com</a>
       
       <a href="https://wa.me/905443079413" class="whatsapp-button">
         <span class="whatsapp-icon">💬</span>
