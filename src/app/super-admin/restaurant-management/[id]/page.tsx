@@ -25,7 +25,6 @@ export default async function RestaurantManagementDetailPage({
     where: { id },
     include: {
       owner: true,
-      // @ts-expect-error - Prisma client type issue with subscriptionHistory
       subscriptionHistory: {
         orderBy: { createdAt: "desc" },
         take: 10,
