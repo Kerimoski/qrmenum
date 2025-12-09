@@ -207,7 +207,7 @@ export default function HomePage() {
                 </div>
                 <CardTitle className="text-3xl font-bold mb-2">Aylık Paket</CardTitle>
                 <div className="mt-6">
-                  <span className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">750₺</span>
+                  <span className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">500₺</span>
                   <span className="text-xl text-gray-600 font-medium">/ay</span>
                 </div>
                 <p className="text-sm text-gray-500 mt-3">Uygun fiyat ile başlayın</p>
@@ -251,7 +251,7 @@ export default function HomePage() {
               {/* POPÜLER Badge - Kartın Dışında, Üstte */}
               <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-50">
                 <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white px-8 py-2.5 rounded-full text-base font-black shadow-2xl border-4 border-white animate-pulse">
-                  ⭐ POPÜLER ⭐
+                  POPÜLER
                 </div>
               </div>
             <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-4 border-green-400 hover:border-green-500 bg-white hover:bg-gradient-to-br hover:from-white hover:to-green-50/30 backdrop-blur-sm overflow-hidden relative scale-105">
