@@ -40,7 +40,7 @@ export function ImpersonationBanner() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-3 shadow-lg">
+    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-3 shadow-lg lg:ml-64 z-50 relative">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           <Shield className="w-5 h-5 animate-pulse" />

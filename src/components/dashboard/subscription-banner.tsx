@@ -84,7 +84,7 @@ export function SubscriptionBanner() {
 
   if (isCritical || isWarning) {
     return (
-      <div className={`${isCritical ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gradient-to-r from-orange-500 to-yellow-500'} text-white px-4 py-3 shadow-md`}>
+      <div className={`${isCritical ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gradient-to-r from-orange-500 to-yellow-500'} text-white px-4 py-3 shadow-md lg:ml-64 z-50 relative`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 animate-pulse" />
@@ -114,7 +114,7 @@ export function SubscriptionBanner() {
 
   // Normal durum - bilgilendirme banner
   return (
-    <div className="bg-gradient-to-r from-gray-100 to-gray-200 border-b px-4 py-2">
+    <div className="bg-gradient-to-r from-gray-100 to-gray-200 border-b px-4 py-2 lg:ml-64 z-50 relative">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap text-sm">
         <div className="flex items-center gap-3">
           <Info className="w-4 h-4 text-gray-600" />
