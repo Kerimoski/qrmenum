@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Crown, CheckCircle2, AlertCircle, Info, Phone, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
+// Force dynamic rendering - no cache
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function SubscriptionPage() {
   const session = await auth();
 
@@ -41,7 +45,7 @@ export default async function SubscriptionPage() {
   const getPlanBadge = (plan: string) => {
     switch (plan) {
       case "MONTHLY":
-        return <Badge className="bg-blue-100 text-blue-800">Aylık - 750₺/ay</Badge>;
+        return <Badge className="bg-blue-100 text-blue-800">Aylık - 500₺/ay</Badge>;
       case "YEARLY":
         return <Badge className="bg-green-100 text-green-800">Yıllık - 3.000₺/yıl</Badge>;
       case "ENTERPRISE":

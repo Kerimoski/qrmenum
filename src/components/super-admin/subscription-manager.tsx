@@ -189,13 +189,13 @@ export function SubscriptionManager({ restaurant }: SubscriptionManagerProps) {
           
           <div className="grid grid-cols-2 gap-3">
             <Button
-              onClick={() => handleExtend(1, 750)}
+              onClick={() => handleExtend(1, 500)}
               disabled={isUpdating}
               variant="outline"
               className="h-auto py-4 flex-col items-start gap-1"
             >
               <span className="font-semibold">+1 Ay</span>
-              <span className="text-xs text-muted-foreground">750₺</span>
+              <span className="text-xs text-muted-foreground">500₺</span>
             </Button>
             <Button
               onClick={() => handleExtend(12, 3000)}
@@ -221,7 +221,7 @@ export function SubscriptionManager({ restaurant }: SubscriptionManagerProps) {
                   setPlan(value);
                   // Pakete göre fiyatı otomatik ayarla
                   if (value === "MONTHLY") {
-                    setAmount("750");
+                    setAmount("500");
                   } else if (value === "YEARLY") {
                     setAmount("3000");
                   } else {
@@ -233,7 +233,7 @@ export function SubscriptionManager({ restaurant }: SubscriptionManagerProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="MONTHLY">Aylık - 750₺/ay</SelectItem>
+                  <SelectItem value="MONTHLY">Aylık - 500₺/ay</SelectItem>
                   <SelectItem value="YEARLY">Yıllık - 3.000₺/yıl</SelectItem>
                   <SelectItem value="ENTERPRISE">Kurumsal - Özel</SelectItem>
                 </SelectContent>
@@ -246,7 +246,7 @@ export function SubscriptionManager({ restaurant }: SubscriptionManagerProps) {
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder={plan === "MONTHLY" ? "750" : plan === "YEARLY" ? "3000" : "Özel fiyat"}
+                placeholder={plan === "MONTHLY" ? "500" : plan === "YEARLY" ? "3000" : "Özel fiyat"}
               />
             </div>
 

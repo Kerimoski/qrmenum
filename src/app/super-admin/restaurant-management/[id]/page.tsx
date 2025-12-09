@@ -8,6 +8,10 @@ import { ArrowLeft, Building2, Calendar, Receipt } from "lucide-react";
 import Link from "next/link";
 import { SubscriptionManager } from "@/components/super-admin/subscription-manager";
 
+// Force dynamic rendering - no cache
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function RestaurantManagementDetailPage({
   params,
 }: {
