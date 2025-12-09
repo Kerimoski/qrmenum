@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { QrCode, Smartphone, TrendingUp, Palette, Globe, Zap, UtensilsCrossed, Folder, PlayCircle, Wifi, Check, Crown, DollarSign, Mail, Calendar } from "lucide-react";
-import { DevicePhoneMobileIcon, ChartBarIcon, ShoppingBagIcon, FolderIcon, CogIcon, QrCodeIcon } from "@heroicons/react/24/outline";
+import { DevicePhoneMobileIcon, ChartBarIcon, ShoppingBagIcon, FolderIcon, CogIcon, QrCodeIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MobilePreview } from "@/components/landing/mobile-preview";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
@@ -518,7 +518,7 @@ export default function HomePage() {
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-gray-100 hover:border-violet-100 bg-white/50 backdrop-blur-sm">
               <CardHeader>
                 <div className="w-14 h-14 rounded-2xl bg-violet-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">✨</span>
+                  <SparklesIcon className="w-7 h-7 text-violet-600" />
                 </div>
                 <CardTitle className="text-xl mb-2">AI Destekli İçerik</CardTitle>
                 <CardDescription className="text-base">
