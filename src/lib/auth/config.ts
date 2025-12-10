@@ -68,14 +68,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        // DİKKAT: Veritabanındaki diğer kullanıcıların SUPER_ADMIN rolüyle girmesini engelle
-        // Sadece env dosyasındaki email SUPER_ADMIN olabilir.
-        if (user.role === 'SUPER_ADMIN') {
-          // Eğer bu noktaya geldiysek, email env'deki superAdminEmail ile eşleşmemiştir (yukarıdaki if)
-          // Dolayısıyla bu bir "diğer" super admin girişimidir. Reddet.
-          return null;
-        }
-
         const isPasswordValid = await compare(
           credentials.password as string,
           user.password
