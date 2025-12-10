@@ -22,20 +22,40 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
+      console.log("🔐 Giriş denemesi başladı:", email);
+      
       const result = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
+      console.log("📊 SignIn sonucu:", result);
+
       if (result?.error) {
+        console.error("❌ Giriş hatası:", result.error);
         setError("Email veya şifre hatalı");
-      } else {
-        // Başarılı giriş - middleware yönlendirecek
-        router.push("/dashboard");
+      } else if (result?.ok) {
+        console.log("✅ Giriş başarılı! Yönlendiriliyor...");
+        
+        // Session'ı al ve role göre yönlendir
+        const response = await fetch("/api/auth/session");
+        const session = await response.json();
+        
+        if (session?.user?.role === "SUPER_ADMIN") {
+          console.log("👑 Super Admin - /super-admin'e yönlendiriliyor");
+          router.push("/super-admin");
+        } else {
+          console.log("🍽️ Restaurant Owner - /dashboard'a yönlendiriliyor");
+          router.push("/dashboard");
+        }
         router.refresh();
+      } else {
+        console.error("⚠️ Beklenmeyen durum:", result);
+        setError("Bir hata oluştu. Lütfen tekrar deneyin.");
       }
     } catch (error) {
+      console.error("💥 Exception:", error);
       setError("Bir hata oluştu. Lütfen tekrar deneyin.");
     } finally {
       setIsLoading(false);

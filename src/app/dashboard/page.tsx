@@ -12,6 +12,11 @@ import { ProductImage } from "@/components/dashboard/product-image";
 export default async function DashboardPage() {
   const session = await auth();
 
+  // Super admin kontrolü - super adminleri kendi paneline yönlendir
+  if (session?.user?.role === "SUPER_ADMIN") {
+    redirect("/super-admin");
+  }
+
   if (!session?.user?.restaurantId) {
     redirect("/login");
   }

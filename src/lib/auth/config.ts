@@ -23,38 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const superAdminEmail = process.env.SUPER_ADMIN_EMAIL;
-        const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD;
-
-        // Özel Super Admin Kontrolü
-        if (superAdminEmail && credentials.email === superAdminEmail) {
-          if (credentials.password === superAdminPassword) {
-            // Veritabanından kullanıcıyı bulmaya çalış (ID için gerekli)
-            let user = await prisma.user.findUnique({
-              where: { email: superAdminEmail },
-              include: { restaurant: true }
-            });
-
-            // Eğer veritabanında yoksa oluştur veya hata döndür?
-            // Güvenlik gereği veritabanında da kaydın olması iyi olur.
-            // Ancak şimdilik varsa döndürüyoruz.
-            if (user) {
-              // Rol kontrolü: Env ile giriş yapan kişi veritabanında da admin olmalı
-              // veya biz onu admin kabul ediyoruz.
-              return {
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                role: 'SUPER_ADMIN', // Rolü zorla
-                restaurantId: user.restaurant?.id,
-              };
-            }
-          }
-          // Email eşleşti ama şifre yanlışsa veya DB'de yoksa reddet
-          return null;
-        }
-
-        // Normal Kullanıcı Kontrolü
+        // Kullanıcıyı veritabanından bul
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email as string,
@@ -68,13 +37,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        // SUPER_ADMIN sadece ENV'den giriş yapabilir
-        if (user.role === 'SUPER_ADMIN') {
-          // Bu kullanıcı veritabanında SUPER_ADMIN ama ENV kontrolü yukarıda yapıldı
-          // Buraya geldiyse ENV ile eşleşmemiştir, reddet
-          return null;
-        }
-
+        // Şifre kontrolü
         const isPasswordValid = await compare(
           credentials.password as string,
           user.password
