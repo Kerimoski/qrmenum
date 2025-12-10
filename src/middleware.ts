@@ -46,8 +46,10 @@ setInterval(() => {
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
-  // Rate limiting
-  const ip = request.ip || request.headers.get("x-forwarded-for") || "unknown";
+  // Rate limiting - IP address al
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const realIp = request.headers.get("x-real-ip");
+  const ip = forwardedFor?.split(",")[0].trim() || realIp || "unknown";
   const isApi = request.nextUrl.pathname.startsWith("/api");
   
   if (!rateLimit(ip, isApi)) {
