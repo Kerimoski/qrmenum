@@ -33,7 +33,10 @@ export default function HomePage() {
               <Button variant="ghost">Giriş Yap</Button>
             </Link>
             <Link href="/demo-login">
-              <Button>Demo Dene</Button>
+              <Button className="flex items-center gap-2">
+                <PlayCircle className="w-4 h-4" />
+                Demo Dene
+              </Button>
             </Link>
           </div>
         </div>
@@ -270,8 +273,9 @@ export default function HomePage() {
                   <span className="text-xl text-gray-600 font-medium">/yıl</span>
                 </div>
                 <div className="mt-4">
-                  <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-base px-4 py-2 font-bold">
-                    250₺/ay - %67 İndirim 🎉
+                  <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-base px-4 py-2 font-bold flex items-center justify-center gap-2">
+                    <SparklesIcon className="w-5 h-5" />
+                    250₺/ay - %67 İndirim
                   </Badge>
                 </div>
                 <p className="text-sm text-gray-500 mt-3 font-semibold">En avantajlı seçenek!</p>
@@ -302,8 +306,9 @@ export default function HomePage() {
                   ))}
                 </div>
                 <Link href="/contact">
-                  <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-600 hover:from-green-700 hover:via-emerald-700 hover:to-green-700 shadow-xl hover:shadow-2xl transition-all duration-300 text-lg py-6" size="lg">
-                    💚 Hemen Başla
+                  <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-600 hover:from-green-700 hover:via-emerald-700 hover:to-green-700 shadow-xl hover:shadow-2xl transition-all duration-300 text-lg py-6 flex items-center gap-2" size="lg">
+                    <SparklesIcon className="w-5 h-5" />
+                    Hemen Başla
                   </Button>
                 </Link>
               </CardContent>
@@ -356,8 +361,9 @@ export default function HomePage() {
                     <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center flex-shrink-0 shadow-md">
                       <Crown className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-                      👑 Çoklu Şube Yönetimi
+                    <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent flex items-center gap-2">
+                      <Crown className="w-4 h-4" />
+                      Çoklu Şube Yönetimi
                     </span>
                   </div>
                 </div>
@@ -707,7 +713,8 @@ export default function HomePage() {
               Bugün kaydolun, 5 dakika içinde menünüzü oluşturun.
             </p>
             <Link href="/demo-login">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-6 flex items-center gap-2">
+                <PlayCircle className="w-5 h-5" />
                 Demo Dene
               </Button>
             </Link>
