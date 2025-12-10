@@ -1,65 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Rate limiting map (in-memory - production için Redis kullanın)
-const ratelimitMap = new Map<string, { count: number; resetTime: number }>();
-
-// Rate limit konfigürasyonu
-const RATE_LIMIT = {
-  windowMs: 60 * 1000, // 1 dakika
-  maxRequests: 100, // 1 dakikada max 100 istek
-  apiMaxRequests: 50, // API için daha sıkı limit
-};
-
-function rateLimit(ip: string, isApi: boolean = false): boolean {
-  const now = Date.now();
-  const limit = isApi ? RATE_LIMIT.apiMaxRequests : RATE_LIMIT.maxRequests;
-  
-  const userData = ratelimitMap.get(ip);
-  
-  if (!userData || now > userData.resetTime) {
-    ratelimitMap.set(ip, {
-      count: 1,
-      resetTime: now + RATE_LIMIT.windowMs,
-    });
-    return true;
-  }
-  
-  if (userData.count >= limit) {
-    return false;
-  }
-  
-  userData.count++;
-  return true;
-}
-
-// Cleanup function - her 10 dakikada bir eski kayıtları temizle
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, data] of ratelimitMap.entries()) {
-    if (now > data.resetTime) {
-      ratelimitMap.delete(ip);
-    }
-  }
-}, 10 * 60 * 1000);
-
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
-
-  // Rate limiting - IP address al
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const realIp = request.headers.get("x-real-ip");
-  const ip = forwardedFor?.split(",")[0].trim() || realIp || "unknown";
-  const isApi = request.nextUrl.pathname.startsWith("/api");
-  
-  if (!rateLimit(ip, isApi)) {
-    return new NextResponse("Çok fazla istek. Lütfen daha sonra tekrar deneyin.", {
-      status: 429,
-      headers: {
-        "Retry-After": "60",
-      },
-    });
-  }
 
   // Security Headers
   response.headers.set("X-DNS-Prefetch-Control", "on");
