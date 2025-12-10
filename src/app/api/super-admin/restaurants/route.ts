@@ -198,6 +198,28 @@ export async function POST(req: NextRequest) {
       data: { qrCode: qrCodeData },
     });
 
+    // Default kategorileri oluştur
+    const defaultCategories = [
+      { name: 'Başlangıçlar', order: 1 },
+      { name: 'Ana Yemekler', order: 2 },
+      { name: 'Tatlılar', order: 3 },
+      { name: 'İçecekler', order: 4 },
+    ];
+
+    await Promise.all(
+      defaultCategories.map((category) =>
+        prisma.category.create({
+          data: {
+            name: category.name,
+            order: category.order,
+            restaurantId: restaurant.id,
+          },
+        })
+      )
+    );
+
+    console.log('✅ Default kategoriler oluşturuldu');
+
     // Abonelik geçmişine kaydet
     const monthCount = subscriptionPlan === "MONTHLY" ? "1" : subscriptionPlan === "YEARLY" ? "12" : "12";
     await prisma.subscriptionHistory.create({
