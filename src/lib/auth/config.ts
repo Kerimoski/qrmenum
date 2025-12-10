@@ -68,6 +68,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
+        // SUPER_ADMIN sadece ENV'den giriş yapabilir
+        if (user.role === 'SUPER_ADMIN') {
+          // Bu kullanıcı veritabanında SUPER_ADMIN ama ENV kontrolü yukarıda yapıldı
+          // Buraya geldiyse ENV ile eşleşmemiştir, reddet
+          return null;
+        }
+
         const isPasswordValid = await compare(
           credentials.password as string,
           user.password
