@@ -33,10 +33,7 @@ export default function HomePage() {
               <Button variant="ghost">Giriş Yap</Button>
             </Link>
             <Link href="/demo-login">
-              <Button className="flex items-center gap-2">
-                <PlayCircle className="w-4 h-4" />
-                Demo Dene
-              </Button>
+              <Button>Demo Dene</Button>
             </Link>
           </div>
         </div>
@@ -713,8 +710,7 @@ export default function HomePage() {
               Bugün kaydolun, 5 dakika içinde menünüzü oluşturun.
             </p>
             <Link href="/demo-login">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6 flex items-center gap-2">
-                <PlayCircle className="w-5 h-5" />
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
                 Demo Dene
               </Button>
             </Link>

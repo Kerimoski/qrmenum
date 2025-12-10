@@ -13,7 +13,8 @@ import {
     PaintBrushIcon,
     VideoCameraIcon,
     QrCodeIcon,
-    WifiIcon
+    WifiIcon,
+    AdjustmentsHorizontalIcon
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -135,7 +136,10 @@ export default function DemoLoginPage() {
                 {/* Admin Panel Features */}
                 <Card className="mb-8 border-2 border-blue-100">
                     <CardHeader>
-                        <CardTitle className="text-2xl">🎛️ Admin Panel Özellikleri</CardTitle>
+                        <CardTitle className="text-2xl flex items-center gap-2">
+                            <AdjustmentsHorizontalIcon className="w-7 h-7 text-blue-600" />
+                            Admin Panel Özellikleri
+                        </CardTitle>
                         <CardDescription>Demo hesaplarla tüm bu özellikleri deneyebilirsiniz</CardDescription>
                     </CardHeader>
                     <CardContent>
