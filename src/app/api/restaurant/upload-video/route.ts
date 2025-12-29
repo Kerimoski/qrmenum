@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/config";
 import { prisma } from "@/lib/db/prisma";
-import { writeFile, unlink } from "fs/promises";
-import { join } from "path";
-import { existsSync } from "fs";
+import { supabaseAdmin } from "@/lib/supabase";
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 const ALLOWED_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
@@ -38,44 +36,59 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Eski videoyu sil (varsa)
+        // Eski videoyu sil (varsa) - Supabase'den
         const restaurant = await prisma.restaurant.findUnique({
             where: { id: session.user.restaurantId },
             select: { videoUrl: true },
         });
 
-        if (restaurant?.videoUrl) {
-            const oldPath = join(process.cwd(), "public", restaurant.videoUrl);
-            if (existsSync(oldPath)) {
-                try {
-                    await unlink(oldPath);
-                } catch (error) {
-                    console.error("Eski video silinirken hata:", error);
-                }
+        if (restaurant?.videoUrl && restaurant.videoUrl.includes('supabase.co')) {
+            // URL'den dosya adını ayıkla
+            const urlParts = restaurant.videoUrl.split('/');
+            const oldFileName = urlParts[urlParts.length - 1];
+            try {
+                await supabaseAdmin.storage
+                    .from('uploads')
+                    .remove([`videos/${oldFileName}`]);
+            } catch (error) {
+                console.error("Eski video Supabase'den silinirken hata:", error);
             }
         }
 
-        // Dosya adını oluştur
+        // Dosyayı buffer'a çevir
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
         const fileExtension = file.name.split('.').pop() || 'mp4';
         const fileName = `${session.user.restaurantId}-${Date.now()}.${fileExtension}`;
-        const filePath = join(process.cwd(), "public", "uploads", "videos", fileName);
 
-        // Dosyayı kaydet
-        await writeFile(filePath, buffer);
+        // Supabase Storage'a yükle
+        const { error: uploadError } = await supabaseAdmin.storage
+            .from('uploads')
+            .upload(`videos/${fileName}`, buffer, {
+                contentType: file.type,
+                upsert: false
+            });
+
+        if (uploadError) {
+            console.error("Supabase video yükleme hatası:", uploadError);
+            return NextResponse.json({ error: "Video kaydedilirken bir hata oluştu" }, { status: 500 });
+        }
+
+        // Public URL oluştur
+        const { data: { publicUrl } } = supabaseAdmin.storage
+            .from('uploads')
+            .getPublicUrl(`videos/${fileName}`);
 
         // Veritabanını güncelle
-        const videoUrl = `/uploads/videos/${fileName}`;
         await prisma.restaurant.update({
             where: { id: session.user.restaurantId },
-            data: { videoUrl },
+            data: { videoUrl: publicUrl },
         });
 
         return NextResponse.json({
             success: true,
-            videoUrl,
+            videoUrl: publicUrl,
             message: "Video başarıyla yüklendi",
         });
     } catch (error) {
@@ -103,13 +116,16 @@ export async function DELETE(req: NextRequest) {
             return NextResponse.json({ error: "Silinecek video bulunamadı" }, { status: 404 });
         }
 
-        // Dosyayı sil
-        const filePath = join(process.cwd(), "public", restaurant.videoUrl);
-        if (existsSync(filePath)) {
-            try {
-                await unlink(filePath);
-            } catch (error) {
-                console.error("Video dosyası silinirken hata:", error);
+        // Dosyayı Supabase'den sil
+        if (restaurant.videoUrl.includes('supabase.co')) {
+            const urlParts = restaurant.videoUrl.split('/');
+            const fileName = urlParts[urlParts.length - 1];
+            const { error: deleteError } = await supabaseAdmin.storage
+                .from('uploads')
+                .remove([`videos/${fileName}`]);
+
+            if (deleteError) {
+                console.error("Video Supabase'den silinirken hata:", deleteError);
             }
         }
 

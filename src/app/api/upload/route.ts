@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/config";
-import { writeFile } from "fs/promises";
-import { join } from "path";
 import { randomUUID } from "crypto";
+import { supabaseAdmin } from "@/lib/supabase";
 
 // Next.js route config
 export const config = {
@@ -59,24 +58,35 @@ export async function POST(req: NextRequest) {
 
     // Dosya uzantısını al
     const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    
+
     // Benzersiz dosya adı oluştur
     const filename = `${randomUUID()}.${extension}`;
-    
+
     // Dosyayı buffer'a çevir
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Dosyayı kaydet
-    const uploadPath = join(process.cwd(), "public", "uploads", filename);
-    await writeFile(uploadPath, buffer);
+    // Supabase Storage'a yükle
+    const { data, error } = await supabaseAdmin.storage
+      .from('uploads')
+      .upload(filename, buffer, {
+        contentType: file.type,
+        upsert: false
+      });
+
+    if (error) {
+      console.error("Supabase yükleme hatası:", error);
+      return NextResponse.json({ error: "Depolama alanına yüklenirken hata oluştu" }, { status: 500 });
+    }
 
     // Public URL oluştur
-    const fileUrl = `/uploads/${filename}`;
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from('uploads')
+      .getPublicUrl(filename);
 
     return NextResponse.json({
       success: true,
-      url: fileUrl,
+      url: publicUrl,
       filename,
       size: file.size,
       type: file.type,
