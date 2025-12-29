@@ -1,6 +1,7 @@
 "use client";
 
 import { UtensilsCrossed } from "lucide-react";
+import Image from "next/image";
 
 interface ProductImageProps {
     src?: string | null;
@@ -23,11 +24,14 @@ const iconSizes = {
 export function ProductImage({ src, alt, size = 'md' }: ProductImageProps) {
     if (src) {
         return (
-            <img
-                src={src}
-                alt={alt}
-                className={`${sizeClasses[size]} rounded-md object-cover`}
-            />
+            <div className={`relative ${sizeClasses[size]} overflow-hidden rounded-md`}>
+                <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className="object-cover"
+                />
+            </div>
         );
     }
 

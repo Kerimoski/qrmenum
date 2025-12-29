@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -177,7 +178,7 @@ export default function HomePage() {
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-green-100 to-blue-100 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2"></div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium mb-6 shadow-lg">
@@ -187,7 +188,7 @@ export default function HomePage() {
               Size Uygun Paketi Seçin
             </h3>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Tüm paketlerde <span className="font-semibold text-blue-600">sınırsız özellikler</span>. 
+              Tüm paketlerde <span className="font-semibold text-blue-600">sınırsız özellikler</span>.
               Kullanıcı dostu arayüz ile restoran yönetimi artık çok kolay!
             </p>
           </div>
@@ -195,55 +196,55 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {/* Aylık Paket */}
             <div className="relative">
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-gradient-to-br hover:from-white hover:to-blue-50/30 backdrop-blur-sm overflow-hidden relative">
-              {/* 7 Gün Deneme Ücretsiz - Modern Çapraz Ribbon */}
-              <div className="absolute top-8 -left-12 w-64 bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-sm font-black py-2.5 text-center transform -rotate-45 shadow-2xl z-20 tracking-wide">
-                7 GÜN ÜCRETSİZ DENE
-              </div>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-              <CardHeader className="text-center pb-8 relative z-10">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500">
-                  <Calendar className="w-10 h-10 text-white" />
+              <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-gradient-to-br hover:from-white hover:to-blue-50/30 backdrop-blur-sm overflow-hidden relative">
+                {/* 7 Gün Deneme Ücretsiz - Modern Çapraz Ribbon */}
+                <div className="absolute top-8 -left-12 w-64 bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-sm font-black py-2.5 text-center transform -rotate-45 shadow-2xl z-20 tracking-wide">
+                  7 GÜN ÜCRETSİZ DENE
                 </div>
-                <CardTitle className="text-3xl font-bold mb-2">Aylık Paket</CardTitle>
-                <div className="mt-6">
-                  <span className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">500₺</span>
-                  <span className="text-xl text-gray-600 font-medium">/ay</span>
-                </div>
-                <p className="text-sm text-gray-500 mt-3">Uygun fiyat ile başlayın</p>
-              </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <div className="space-y-3 mb-8">
-                  {[
-                    "Sınırsız Ürün",
-                    "Özelleştirilmiş QR Kod Şablonları",
-                    "Sınırsız QR kod",
-                    "Çoklu Dil Desteği (5 dil)",
-                    "Video Tanıtım",
-                    "Gelişmiş Analitik",
-                    "Kategori Yönetimi",
-                    "Sosyal Medya Entegrasyonu",
-                    "Özelleştirilebilir Tema",
-                    "Mobil Uyumlu Tasarım",
-                    "7/24 Destek",
-                    "Kullanıcı Dostu Arayüz",
-                    "Avantajlı Restoran Yönetimi"
-                  ].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3 group/item">
-                      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
-                        <Check className="w-4 h-4 text-green-600" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                <CardHeader className="text-center pb-8 relative z-10">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                    <Calendar className="w-10 h-10 text-white" />
+                  </div>
+                  <CardTitle className="text-3xl font-bold mb-2">Aylık Paket</CardTitle>
+                  <div className="mt-6">
+                    <span className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">500₺</span>
+                    <span className="text-xl text-gray-600 font-medium">/ay</span>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-3">Uygun fiyat ile başlayın</p>
+                </CardHeader>
+                <CardContent className="space-y-4 relative z-10">
+                  <div className="space-y-3 mb-8">
+                    {[
+                      "Sınırsız Ürün",
+                      "Özelleştirilmiş QR Kod Şablonları",
+                      "Sınırsız QR kod",
+                      "Çoklu Dil Desteği (5 dil)",
+                      "Video Tanıtım",
+                      "Gelişmiş Analitik",
+                      "Kategori Yönetimi",
+                      "Sosyal Medya Entegrasyonu",
+                      "Özelleştirilebilir Tema",
+                      "Mobil Uyumlu Tasarım",
+                      "7/24 Destek",
+                      "Kullanıcı Dostu Arayüz",
+                      "Avantajlı Restoran Yönetimi"
+                    ].map((feature, i) => (
+                      <div key={i} className="flex items-center gap-3 group/item">
+                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
+                          <Check className="w-4 h-4 text-green-600" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">{feature}</span>
                       </div>
-                      <span className="text-sm font-medium text-gray-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link href="/contact">
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300" size="lg">
-                    Hemen Başla
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                    ))}
+                  </div>
+                  <Link href="/contact">
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300" size="lg">
+                      Hemen Başla
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Yıllık Paket - Popüler */}
@@ -254,124 +255,124 @@ export default function HomePage() {
                   POPÜLER
                 </div>
               </div>
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-4 border-green-400 hover:border-green-500 bg-white hover:bg-gradient-to-br hover:from-white hover:to-green-50/30 backdrop-blur-sm overflow-hidden relative scale-105">
-              {/* 7 Gün Deneme Ücretsiz - Modern Çapraz Ribbon */}
-              <div className="absolute top-8 -left-12 w-64 bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-sm font-black py-2.5 text-center transform -rotate-45 shadow-2xl z-30 tracking-wide">
-                7 GÜN ÜCRETSİZ DENE
-              </div>
-              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-green-400 to-emerald-600 rounded-full blur-3xl opacity-10"></div>
-              <CardHeader className="text-center pb-8 pt-8 relative z-10">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <TrendingUp className="w-12 h-12 text-white" />
+              <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-4 border-green-400 hover:border-green-500 bg-white hover:bg-gradient-to-br hover:from-white hover:to-green-50/30 backdrop-blur-sm overflow-hidden relative scale-105">
+                {/* 7 Gün Deneme Ücretsiz - Modern Çapraz Ribbon */}
+                <div className="absolute top-8 -left-12 w-64 bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-sm font-black py-2.5 text-center transform -rotate-45 shadow-2xl z-30 tracking-wide">
+                  7 GÜN ÜCRETSİZ DENE
                 </div>
-                <CardTitle className="text-4xl font-bold mb-2">Yıllık Paket</CardTitle>
-                <div className="mt-6">
-                  <span className="text-7xl font-bold bg-gradient-to-r from-green-600 to-emerald-800 bg-clip-text text-transparent">3.000₺</span>
-                  <span className="text-xl text-gray-600 font-medium">/yıl</span>
-                </div>
-                <div className="mt-4">
-                  <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-base px-4 py-2 font-bold flex items-center justify-center gap-2">
-                    <SparklesIcon className="w-5 h-5" />
-                    250₺/ay - %67 İndirim
-                  </Badge>
-                </div>
-                <p className="text-sm text-gray-500 mt-3 font-semibold">En avantajlı seçenek!</p>
-              </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <div className="space-y-3 mb-8">
-                  {[
-                    "Sınırsız Ürün",
-                    "Özelleştirilmiş QR Kod Şablonları",
-                    "Sınırsız QR kod",
-                    "Çoklu Dil Desteği (5 dil)",
-                    "Video Tanıtım",
-                    "Gelişmiş Analitik",
-                    "Kategori Yönetimi",
-                    "Sosyal Medya Entegrasyonu",
-                    "Özelleştirilebilir Tema",
-                    "Mobil Uyumlu Tasarım",
-                    "7/24 Destek",
-                    "Kullanıcı Dostu Arayüz",
-                    "Avantajlı Restoran Yönetimi"
-                  ].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3 group/item">
-                      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
-                        <Check className="w-4 h-4 text-green-600" />
+                <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-green-400 to-emerald-600 rounded-full blur-3xl opacity-10"></div>
+                <CardHeader className="text-center pb-8 pt-8 relative z-10">
+                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <TrendingUp className="w-12 h-12 text-white" />
+                  </div>
+                  <CardTitle className="text-4xl font-bold mb-2">Yıllık Paket</CardTitle>
+                  <div className="mt-6">
+                    <span className="text-7xl font-bold bg-gradient-to-r from-green-600 to-emerald-800 bg-clip-text text-transparent">3.000₺</span>
+                    <span className="text-xl text-gray-600 font-medium">/yıl</span>
+                  </div>
+                  <div className="mt-4">
+                    <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-base px-4 py-2 font-bold flex items-center justify-center gap-2">
+                      <SparklesIcon className="w-5 h-5" />
+                      250₺/ay - %67 İndirim
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-3 font-semibold">En avantajlı seçenek!</p>
+                </CardHeader>
+                <CardContent className="space-y-4 relative z-10">
+                  <div className="space-y-3 mb-8">
+                    {[
+                      "Sınırsız Ürün",
+                      "Özelleştirilmiş QR Kod Şablonları",
+                      "Sınırsız QR kod",
+                      "Çoklu Dil Desteği (5 dil)",
+                      "Video Tanıtım",
+                      "Gelişmiş Analitik",
+                      "Kategori Yönetimi",
+                      "Sosyal Medya Entegrasyonu",
+                      "Özelleştirilebilir Tema",
+                      "Mobil Uyumlu Tasarım",
+                      "7/24 Destek",
+                      "Kullanıcı Dostu Arayüz",
+                      "Avantajlı Restoran Yönetimi"
+                    ].map((feature, i) => (
+                      <div key={i} className="flex items-center gap-3 group/item">
+                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
+                          <Check className="w-4 h-4 text-green-600" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">{feature}</span>
                       </div>
-                      <span className="text-sm font-medium text-gray-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link href="/contact">
-                  <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-600 hover:from-green-700 hover:via-emerald-700 hover:to-green-700 shadow-xl hover:shadow-2xl transition-all duration-300 text-lg py-6 flex items-center gap-2" size="lg">
-                    <SparklesIcon className="w-5 h-5" />
-                    Hemen Başla
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                    ))}
+                  </div>
+                  <Link href="/contact">
+                    <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-600 hover:from-green-700 hover:via-emerald-700 hover:to-green-700 shadow-xl hover:shadow-2xl transition-all duration-300 text-lg py-6 flex items-center gap-2" size="lg">
+                      <SparklesIcon className="w-5 h-5" />
+                      Hemen Başla
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Kurumsal Paket */}
             <div className="relative">
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-purple-300 hover:border-purple-500 bg-white hover:bg-gradient-to-br hover:from-white hover:to-purple-50/30 backdrop-blur-sm overflow-hidden relative">
-              {/* 7 Gün Deneme Ücretsiz - Modern Çapraz Ribbon */}
-              <div className="absolute top-8 -left-12 w-64 bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-sm font-black py-2.5 text-center transform -rotate-45 shadow-2xl z-20 tracking-wide">
-                7 GÜN ÜCRETSİZ DENE
-              </div>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-              <CardHeader className="text-center pb-8 relative z-10">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500">
-                  <Crown className="w-10 h-10 text-white" />
+              <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-purple-300 hover:border-purple-500 bg-white hover:bg-gradient-to-br hover:from-white hover:to-purple-50/30 backdrop-blur-sm overflow-hidden relative">
+                {/* 7 Gün Deneme Ücretsiz - Modern Çapraz Ribbon */}
+                <div className="absolute top-8 -left-12 w-64 bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-sm font-black py-2.5 text-center transform -rotate-45 shadow-2xl z-20 tracking-wide">
+                  7 GÜN ÜCRETSİZ DENE
                 </div>
-                <CardTitle className="text-3xl font-bold mb-2">Kurumsal Paket</CardTitle>
-                <div className="mt-6">
-                  <span className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Özel Fiyat</span>
-                </div>
-                <p className="text-sm text-gray-500 mt-3">Büyük işletmeler için</p>
-              </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <div className="space-y-3 mb-8">
-                  {[
-                    "Sınırsız Ürün",
-                    "Özelleştirilmiş QR Kod Şablonları",
-                    "Sınırsız QR kod",
-                    "Çoklu Dil Desteği (5 dil)",
-                    "Video Tanıtım",
-                    "Gelişmiş Analitik",
-                    "Kategori Yönetimi",
-                    "Sosyal Medya Entegrasyonu",
-                    "Özelleştirilebilir Tema",
-                    "Mobil Uyumlu Tasarım",
-                    "7/24 Destek",
-                    "Kullanıcı Dostu Arayüz",
-                    "Avantajlı Restoran Yönetimi"
-                  ].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3 group/item">
-                      <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
-                        <Check className="w-4 h-4 text-purple-600" />
-                      </div>
-                      <span className="text-sm font-medium text-gray-700">{feature}</span>
-                    </div>
-                  ))}
-                  <div className="flex items-center gap-3 pt-4 border-t-2 border-purple-200 mt-4">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center flex-shrink-0 shadow-md">
-                      <Crown className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent flex items-center gap-2">
-                      <Crown className="w-4 h-4" />
-                      Çoklu Şube Yönetimi
-                    </span>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                <CardHeader className="text-center pb-8 relative z-10">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                    <Crown className="w-10 h-10 text-white" />
                   </div>
-                </div>
-                <Link href="/contact">
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg hover:shadow-xl transition-all duration-300" size="lg">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Teklif Al
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                  <CardTitle className="text-3xl font-bold mb-2">Kurumsal Paket</CardTitle>
+                  <div className="mt-6">
+                    <span className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Özel Fiyat</span>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-3">Büyük işletmeler için</p>
+                </CardHeader>
+                <CardContent className="space-y-4 relative z-10">
+                  <div className="space-y-3 mb-8">
+                    {[
+                      "Sınırsız Ürün",
+                      "Özelleştirilmiş QR Kod Şablonları",
+                      "Sınırsız QR kod",
+                      "Çoklu Dil Desteği (5 dil)",
+                      "Video Tanıtım",
+                      "Gelişmiş Analitik",
+                      "Kategori Yönetimi",
+                      "Sosyal Medya Entegrasyonu",
+                      "Özelleştirilebilir Tema",
+                      "Mobil Uyumlu Tasarım",
+                      "7/24 Destek",
+                      "Kullanıcı Dostu Arayüz",
+                      "Avantajlı Restoran Yönetimi"
+                    ].map((feature, i) => (
+                      <div key={i} className="flex items-center gap-3 group/item">
+                        <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
+                          <Check className="w-4 h-4 text-purple-600" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">{feature}</span>
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-3 pt-4 border-t-2 border-purple-200 mt-4">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center flex-shrink-0 shadow-md">
+                        <Crown className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent flex items-center gap-2">
+                        <Crown className="w-4 h-4" />
+                        Çoklu Şube Yönetimi
+                      </span>
+                    </div>
+                  </div>
+                  <Link href="/contact">
+                    <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg hover:shadow-xl transition-all duration-300" size="lg">
+                      <Mail className="w-5 h-5 mr-2" />
+                      Teklif Al
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
@@ -544,13 +545,14 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {/* Dashboard Preview */}
             <div className="group">
-              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
-                <img
+              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300 h-[300px]">
+                <Image
                   src="/demo-previews/dashboard.png"
                   alt="Dashboard Önizleme"
-                  className="w-full h-auto"
+                  fill
+                  className="object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-600 to-blue-600/90 text-white px-4 py-3 flex items-center gap-2">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-600 to-blue-600/90 text-white px-4 py-3 flex items-center gap-2 z-10">
                   <ChartBarIcon className="w-5 h-5" />
                   <span className="font-semibold">Dashboard Preview</span>
                 </div>
@@ -566,13 +568,14 @@ export default function HomePage() {
 
             {/* Products Preview */}
             <div className="group">
-              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
-                <img
+              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300 h-[300px]">
+                <Image
                   src="/demo-previews/products.png"
                   alt="Ürünler Önizleme"
-                  className="w-full h-auto"
+                  fill
+                  className="object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-teal-600 to-teal-600/90 text-white px-4 py-3 flex items-center gap-2">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-teal-600 to-teal-600/90 text-white px-4 py-3 flex items-center gap-2 z-10">
                   <ShoppingBagIcon className="w-5 h-5" />
                   <span className="font-semibold">Products Preview</span>
                 </div>
@@ -588,13 +591,14 @@ export default function HomePage() {
 
             {/* Categories Preview */}
             <div className="group">
-              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
-                <img
+              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300 h-[300px]">
+                <Image
                   src="/demo-previews/categories.png"
                   alt="Kategoriler Önizleme"
-                  className="w-full h-auto"
+                  fill
+                  className="object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-amber-600 to-amber-600/90 text-white px-4 py-3 flex items-center gap-2">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-amber-600 to-amber-600/90 text-white px-4 py-3 flex items-center gap-2 z-10">
                   <FolderIcon className="w-5 h-5" />
                   <span className="font-semibold">Categories Preview</span>
                 </div>
@@ -610,13 +614,14 @@ export default function HomePage() {
 
             {/* QR Templates Preview */}
             <div className="group">
-              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
-                <img
+              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300 h-[300px]">
+                <Image
                   src="/demo-previews/qr-templates.png"
                   alt="QR Şablonları Önizleme"
-                  className="w-full h-auto"
+                  fill
+                  className="object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-indigo-600 to-indigo-600/90 text-white px-4 py-3 flex items-center gap-2">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-indigo-600 to-indigo-600/90 text-white px-4 py-3 flex items-center gap-2 z-10">
                   <QrCodeIcon className="w-5 h-5" />
                   <span className="font-semibold">QR Templates Preview</span>
                 </div>
@@ -632,13 +637,14 @@ export default function HomePage() {
 
             {/* Settings Preview */}
             <div className="group">
-              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
-                <img
+              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-300 h-[300px]">
+                <Image
                   src="/demo-previews/settings.png"
                   alt="Ayarlar Önizleme"
-                  className="w-full h-auto"
+                  fill
+                  className="object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-purple-600/90 text-white px-4 py-3 flex items-center gap-2">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-purple-600/90 text-white px-4 py-3 flex items-center gap-2 z-10">
                   <CogIcon className="w-5 h-5" />
                   <span className="font-semibold">Settings Preview</span>
                 </div>

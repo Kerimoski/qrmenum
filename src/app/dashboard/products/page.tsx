@@ -564,11 +564,14 @@ export default function ProductsPage() {
                       </>
                     ) : imagePreview || formData.image ? (
                       <div className="space-y-2">
-                        <img
-                          src={imagePreview || formData.image}
-                          alt="Önizleme"
-                          className="w-32 h-32 object-cover rounded-lg border mx-auto"
-                        />
+                        <div className="relative w-32 h-32 mx-auto overflow-hidden rounded-lg border">
+                          <Image
+                            src={imagePreview || formData.image}
+                            alt="Önizleme"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                         <Button
                           type="button"
                           variant="outline"
@@ -672,14 +675,14 @@ export default function ProductsPage() {
                   {/* Ürün Görseli */}
                   <div className="flex-shrink-0">
                     {(product as any).image ? (
-                      <img
-                        src={(product as any).image}
-                        alt={product.name}
-                        className="w-24 h-24 object-cover rounded-lg"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "https://via.placeholder.com/96?text=Ürün";
-                        }}
-                      />
+                      <div className="relative w-24 h-24 overflow-hidden rounded-lg">
+                        <Image
+                          src={(product as any).image}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                     ) : (
                       <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
                         <UtensilsCrossed className="w-8 h-8 text-gray-400" />
