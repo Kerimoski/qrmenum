@@ -62,6 +62,7 @@ async function main() {
       slug: 'lezzet-duragi',
       subdomain: 'lezzet-duragi',
       description: 'Geleneksel Türk mutfağının modern yorumu',
+      descriptionEn: 'Modern interpretation of traditional Turkish cuisine',
       qrCode: turkishQR,
       wifiPassword: 'lezzet2024',
       ownerId: turkishOwner.id,
@@ -117,6 +118,10 @@ async function main() {
       image: '/demo-images/iskender-kebap.png',
       categoryId: turkishCategories[1].id,
       order: 1,
+      variants: [
+        { name: '1 Porsiyon', nameEn: '1 Portion', price: 180, order: 1 },
+        { name: '1.5 Porsiyon', nameEn: '1.5 Portion', price: 240, order: 2 },
+      ]
     },
     {
       name: 'Adana Kebap',
@@ -127,6 +132,10 @@ async function main() {
       image: '/demo-images/adana-kebap.png',
       categoryId: turkishCategories[1].id,
       order: 2,
+      variants: [
+        { name: 'Dürüm', nameEn: 'Wrap', price: 120, order: 1 },
+        { name: 'Porsiyon', nameEn: 'Portion', price: 165, order: 2 },
+      ]
     },
     {
       name: 'Patlıcan Musakka',
@@ -180,17 +189,30 @@ async function main() {
     },
   ];
 
-  for (const product of turkishProducts) {
-    await prisma.product.create({
+  for (const productData of turkishProducts) {
+    const { variants, ...rest } = productData;
+    const createdProduct = await prisma.product.create({
       data: {
-        ...product,
+        ...rest,
         restaurantId: turkishRestaurant.id,
         isActive: true,
       },
     });
+
+    if (variants) {
+      for (const variant of variants) {
+        await prisma.productVariant.create({
+          data: {
+            ...variant,
+            productId: createdProduct.id,
+            isActive: true,
+          },
+        });
+      }
+    }
   }
 
-  console.log(`✅ ${turkishProducts.length} Türk ürünü eklendi\n`);
+  console.log(`✅ ${turkishProducts.length} Türk ürünü ve varyantları eklendi\n`);
 
   // 🇰🇷 KORE RESTORAN
   console.log('🇰🇷 Kore Restoranı oluşturuluyor...');
@@ -230,6 +252,7 @@ async function main() {
       slug: 'seoul-kitchen',
       subdomain: 'seoul-kitchen',
       description: 'Güney Kore mutfağının en seçkin lezzetleri',
+      descriptionEn: 'The most distinguished flavors of South Korean cuisine',
       qrCode: koreanQR,
       wifiPassword: 'seoul2024',
       ownerId: koreanOwner.id,
@@ -285,6 +308,10 @@ async function main() {
       image: '/demo-images/Bulgogi (marinated beef).png',
       categoryId: koreanCategories[1].id,
       order: 1,
+      variants: [
+        { name: 'Porsiyon', nameEn: 'Portion', price: 185, order: 1 },
+        { name: 'Pilav Üstü', nameEn: 'Over Rice', price: 195, order: 2 },
+      ]
     },
     {
       name: 'Bibimbap',
@@ -305,6 +332,10 @@ async function main() {
       image: '/demo-images/Tteokbokki (spicy rice cakes).png',
       categoryId: koreanCategories[1].id,
       order: 3,
+      variants: [
+        { name: 'Klasik', nameEn: 'Classic', price: 95, order: 1 },
+        { name: 'Peynirli', nameEn: 'Cheese', price: 115, order: 2 },
+      ]
     },
     {
       name: 'Korean Fried Chicken',
@@ -348,17 +379,30 @@ async function main() {
     },
   ];
 
-  for (const product of koreanProducts) {
-    await prisma.product.create({
+  for (const productData of koreanProducts) {
+    const { variants, ...rest } = productData;
+    const createdProduct = await prisma.product.create({
       data: {
-        ...product,
+        ...rest,
         restaurantId: koreanRestaurant.id,
         isActive: true,
       },
     });
+
+    if (variants) {
+      for (const variant of variants) {
+        await prisma.productVariant.create({
+          data: {
+            ...variant,
+            productId: createdProduct.id,
+            isActive: true,
+          },
+        });
+      }
+    }
   }
 
-  console.log(`✅ ${koreanProducts.length} Kore ürünü eklendi\n`);
+  console.log(`✅ ${koreanProducts.length} Kore ürünü ve varyantları eklendi\n`);
 
   // Demo ödeme geçmişleri ekle
   console.log('💰 Demo ödeme geçmişi oluşturuluyor...');

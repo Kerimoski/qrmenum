@@ -1,10 +1,11 @@
 "use client";
 
 interface CategoryNavigationProps {
-  categories: Array<{ id: string; name: string }>;
+  categories: Array<{ id: string; name: string; nameEn?: string | null }>;
+  t: (tr: string, en?: string | null) => string;
 }
 
-export function CategoryNavigation({ categories }: CategoryNavigationProps) {
+export function CategoryNavigation({ categories, t }: CategoryNavigationProps) {
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(`category-${categoryId}`);
     if (element) {
@@ -28,7 +29,7 @@ export function CategoryNavigation({ categories }: CategoryNavigationProps) {
           onClick={() => scrollToCategory(category.id)}
           className="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 hover:border-gray-400 text-gray-700 font-normal rounded-lg text-sm whitespace-nowrap transition-colors duration-200"
         >
-          {category.name}
+          {t(category.name, category.nameEn)}
         </button>
       ))}
     </div>

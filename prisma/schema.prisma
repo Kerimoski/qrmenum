@@ -66,6 +66,7 @@ model Restaurant {
   subdomain    String   @unique
   logo         String?
   description  String?
+  descriptionEn String?
   videoUrl     String?  // Tanıtım videosu URL
   qrCode       String?  // QR kod image URL veya base64
   wifiPassword String?

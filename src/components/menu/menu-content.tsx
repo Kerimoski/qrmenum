@@ -27,12 +27,14 @@ export function MenuContent({ restaurant }: MenuContentProps) {
                             {restaurant.name}
                         </h1>
                         {restaurant.description && (
-                            <p className="text-gray-500 text-base">{restaurant.description}</p>
+                            <p className="text-gray-500 text-base">
+                                {t(restaurant.description, restaurant.descriptionEn)}
+                            </p>
                         )}
                     </div>
 
                     {/* Category Navigation */}
-                    <CategoryNavigation categories={restaurant.categories} />
+                    <CategoryNavigation categories={restaurant.categories} t={t} />
                 </div>
             </header>
 
@@ -242,9 +244,9 @@ export function MenuContent({ restaurant }: MenuContentProps) {
                         )}
 
                         {/* Powered By */}
-                        <a 
-                            href="https://qrmenurestoranim.com" 
-                            target="_blank" 
+                        <a
+                            href="https://qrmenurestoranim.com"
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                         >
