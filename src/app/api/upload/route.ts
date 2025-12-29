@@ -3,15 +3,6 @@ import { auth } from "@/lib/auth/config";
 import { randomUUID } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase";
 
-// Next.js route config
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '150mb',
-    },
-  },
-};
-
 // Dosya yükleme için maksimum boyut: 150MB
 const MAX_FILE_SIZE = 150 * 1024 * 1024; // 150MB in bytes
 

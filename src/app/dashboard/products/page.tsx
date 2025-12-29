@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil, Trash2, Loader2, UtensilsCrossed, X, Sparkles } from "lucide-react";
+import Image from "next/image";
 
 interface Category {
   id: string;
