@@ -70,13 +70,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = user.role;
         token.restaurantId = user.restaurantId;
       }
-      
+
       // Update token when session is updated (for impersonation)
       if (trigger === "update" && session) {
         token.isImpersonating = session.isImpersonating;
         token.originalUserId = session.originalUserId;
         token.originalUserName = session.originalUserName;
-        
+
         if (session.isImpersonating) {
           // When impersonating, override user info
           token.id = session.impersonatedUserId;
@@ -89,7 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         }
       }
-      
+
       return token;
     },
     async session({ session, token }) {
@@ -102,6 +102,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.originalUserName = token.originalUserName as string;
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Eğer url localhost içeriyorsa veya sadece base URL ise yönlendir
+      if (url.includes("localhost")) {
+        return `${baseUrl}/login`;
+      }
+      // callbackUrl parametresini onurlandır ama her zaman baseUrl altında kaldığından emin ol
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/login`;
     },
   },
 });
