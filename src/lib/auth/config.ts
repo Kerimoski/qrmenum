@@ -19,47 +19,64 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Şifre", type: "password" },
       },
       async authorize(credentials) {
+        console.log("🔑 [AUTH SERVER] Authorize denemesi başladı:", credentials?.email);
+
         if (!credentials?.email || !credentials?.password) {
+          console.warn("⚠️ [AUTH SERVER] Eksik bilgi: email veya şifre yok");
           return null;
         }
 
-        // Kullanıcıyı veritabanından bul
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email as string,
-          },
-          include: {
-            restaurant: true,
-          },
-        });
+        try {
+          // Kullanıcıyı veritabanından bul
+          const user = await prisma.user.findUnique({
+            where: {
+              email: (credentials.email as string).trim(),
+            },
+            include: {
+              restaurant: true,
+            },
+          });
 
-        if (!user || !user.isActive) {
-          return null;
+          if (!user) {
+            console.warn("❌ [AUTH SERVER] Kullanıcı bulunamadı:", credentials.email);
+            return null;
+          }
+
+          if (!user.isActive) {
+            console.warn("🚫 [AUTH SERVER] Kullanıcı hesabı pasif:", credentials.email);
+            return null;
+          }
+
+          // Şifre kontrolü
+          const isPasswordValid = await compare(
+            credentials.password as string,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            console.warn("❌ [AUTH SERVER] Şifre hatalı:", credentials.email);
+            return null;
+          }
+
+          // Son giriş zamanını güncelle
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { lastLoginAt: new Date() },
+          });
+
+          console.log("✅ [AUTH SERVER] Authorize başarılı! Rol:", user.role);
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            restaurantId: user.restaurant?.id,
+          };
+        } catch (error) {
+          console.error("💥 [AUTH SERVER] Kritik hata:", error);
+          throw error;
         }
-
-        // Şifre kontrolü
-        const isPasswordValid = await compare(
-          credentials.password as string,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        // Son giriş zamanını güncelle
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { lastLoginAt: new Date() },
-        });
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          restaurantId: user.restaurant?.id,
-        };
       },
     }),
   ],
