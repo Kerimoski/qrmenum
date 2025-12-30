@@ -19,9 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Şifre", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
+        console.log("🔍 [AUTH] authorize denemesi:", credentials.email);
 
         // Kullanıcıyı veritabanından bul (Case-insensitive)
         const user = await prisma.user.findFirst({
@@ -36,9 +34,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
         });
 
-        if (!user || !user.isActive) {
+        if (!user) {
+          console.warn("❌ [AUTH] Kullanıcı bulunamadı:", credentials.email);
           return null;
         }
+
+        if (!user.isActive) {
+          console.warn("❌ [AUTH] Kullanıcı pasif:", credentials.email);
+          return null;
+        }
+
+        console.log("✅ [AUTH] Kullanıcı bulundu, şifre kontrol ediliyor...");
 
         // Şifre kontrolü
         const isPasswordValid = await compare(
@@ -110,18 +116,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Göreli URL'ler için
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // baseUrl'in sonundaki slash'ı temizle
+      const normalizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+
+      // Göreli URL'ler için (/dashboard gibi)
+      if (url.startsWith("/")) return `${normalizedBase}${url}`;
 
       // Eğer url zaten tam bir URL ise ve origin eşleşiyorsa izin ver
       try {
         const urlObj = new URL(url);
-        const baseObj = new URL(baseUrl);
+        const baseObj = new URL(normalizedBase);
         if (urlObj.origin === baseObj.origin) return url;
       } catch (e) { }
 
-      // Aksi takdirde baseUrl'e (genellikle /login veya ana sayfa) dön
-      return baseUrl;
+      // Aksi takdirde login veya base URL'e dön
+      return normalizedBase;
     },
   },
 });
