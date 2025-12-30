@@ -1,10 +1,12 @@
 import { auth } from "@/lib/auth/config";
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Activity, Database, Server, HardDrive, Cpu, 
+import {
+  Activity, Database, Server, HardDrive, Cpu,
   Zap, Clock, CheckCircle, AlertCircle, TrendingUp
 } from "lucide-react";
 
@@ -30,12 +32,12 @@ export default async function SystemStatusPage() {
     totalProducts,
     totalCategories,
     totalViews,
-    
+
     // Aktivite metrikleri
     viewsLast24h,
     viewsLastHour,
     viewsLast5min,
-    
+
     // Performance metrikleri
     avgResponseTime,
     recentViews,
@@ -45,14 +47,14 @@ export default async function SystemStatusPage() {
     prisma.product.count(),
     prisma.category.count(),
     prisma.menuView.count(),
-    
+
     prisma.menuView.count({ where: { viewedAt: { gte: last24Hours } } }),
     prisma.menuView.count({ where: { viewedAt: { gte: lastHour } } }),
     prisma.menuView.count({ where: { viewedAt: { gte: last5Minutes } } }),
-    
+
     // Response time simulation (gerçek production'da monitoring tool'dan gelecek)
     Promise.resolve(Math.floor(Math.random() * 50) + 100), // 100-150ms
-    
+
     prisma.menuView.findMany({
       orderBy: { viewedAt: "desc" },
       take: 24,
@@ -89,11 +91,11 @@ export default async function SystemStatusPage() {
     traffic: viewsLast5min > 0 ? "active" : "idle",
   };
 
-  const overallStatus = 
-    Object.values(systemHealth).every(s => s === "healthy" || s === "active") 
-      ? "healthy" 
-      : Object.values(systemHealth).some(s => s === "error") 
-        ? "error" 
+  const overallStatus =
+    Object.values(systemHealth).every(s => s === "healthy" || s === "active")
+      ? "healthy"
+      : Object.values(systemHealth).some(s => s === "error")
+        ? "error"
         : "warning";
 
   // Uptime hesapla (son 24 saat)
@@ -113,10 +115,10 @@ export default async function SystemStatusPage() {
       {/* Genel Durum */}
       <div className="grid md:grid-cols-4 gap-6">
         <Card className={
-          overallStatus === "healthy" 
-            ? "border-green-200 bg-green-50" 
-            : overallStatus === "error" 
-              ? "border-red-200 bg-red-50" 
+          overallStatus === "healthy"
+            ? "border-green-200 bg-green-50"
+            : overallStatus === "error"
+              ? "border-red-200 bg-red-50"
               : "border-yellow-200 bg-yellow-50"
         }>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -316,11 +318,10 @@ export default async function SystemStatusPage() {
                   {hour.count}
                 </div>
                 <div
-                  className={`w-full rounded-t transition-all ${
-                    hour.count > 0 
-                      ? "bg-gradient-to-t from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500" 
+                  className={`w-full rounded-t transition-all ${hour.count > 0
+                      ? "bg-gradient-to-t from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500"
                       : "bg-gray-200"
-                  }`}
+                    }`}
                   style={{
                     height: `${(hour.count / maxHourlyViews) * 100}%`,
                     minHeight: hour.count > 0 ? "20px" : "5px"

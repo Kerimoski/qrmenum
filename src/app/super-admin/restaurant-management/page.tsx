@@ -1,15 +1,17 @@
+export const dynamic = "force-dynamic";
+
 import { auth } from "@/lib/auth/config";
 import { prisma } from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  Receipt, 
-  Calendar, 
-  TrendingUp, 
-  AlertCircle, 
-  CheckCircle2, 
+import {
+  Receipt,
+  Calendar,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle2,
   Clock,
   DollarSign,
   Building2
@@ -71,7 +73,7 @@ export default async function RestaurantManagementPage() {
       id: true
     }
   });
-  
+
   const demoRestaurantIds = demoRestaurants.map(r => r.id);
 
   // Ödeme toplamları (isPaid=true olanlar, demo restoranlar hariç)
@@ -317,7 +319,7 @@ export default async function RestaurantManagementPage() {
                       </td>
                       <td className="p-4">
                         <div className="text-sm">
-                          {restaurant.subscriptionStartDate 
+                          {restaurant.subscriptionStartDate
                             ? new Date(restaurant.subscriptionStartDate).toLocaleDateString('tr-TR')
                             : '-'
                           }
@@ -325,7 +327,7 @@ export default async function RestaurantManagementPage() {
                       </td>
                       <td className="p-4">
                         <div className="text-sm">
-                          {restaurant.subscriptionEndDate 
+                          {restaurant.subscriptionEndDate
                             ? new Date(restaurant.subscriptionEndDate).toLocaleDateString('tr-TR')
                             : '-'
                           }
