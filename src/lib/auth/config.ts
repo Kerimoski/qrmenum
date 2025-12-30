@@ -23,10 +23,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        // Kullanıcıyı veritabanından bul
-        const user = await prisma.user.findUnique({
+        // Kullanıcıyı veritabanından bul (Case-insensitive)
+        const user = await prisma.user.findFirst({
           where: {
-            email: credentials.email as string,
+            email: {
+              equals: (credentials.email as string).toLowerCase(),
+              mode: 'insensitive'
+            },
           },
           include: {
             restaurant: true,
@@ -44,6 +47,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
 
         if (!isPasswordValid) {
+          console.warn("❌ [AUTH] Hatalı şifre:", credentials.email);
           return null;
         }
 
@@ -52,6 +56,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { id: user.id },
           data: { lastLoginAt: new Date() },
         });
+
+        console.log("✅ [AUTH] Giriş başarılı:", user.email);
 
         return {
           id: user.id,
@@ -104,21 +110,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Eğer url localhost içeriyorsa ve biz de localhost'taysak izin ver
-      if (url.includes("localhost") && baseUrl.includes("localhost")) {
-        return url.startsWith("/") ? `${baseUrl}${url}` : url;
-      }
-
-      // Production'da localhost yönlendirmesini engelle
-      if (url.includes("localhost") && !baseUrl.includes("localhost")) {
-        return `${baseUrl}/login`;
-      }
-
-      // callbackUrl parametresini onurlandır
+      // Göreli URL'ler için
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) return url;
+
+      // Eğer url zaten tam bir URL ise ve origin eşleşiyorsa izin ver
+      try {
+        const urlObj = new URL(url);
+        const baseObj = new URL(baseUrl);
+        if (urlObj.origin === baseObj.origin) return url;
+      } catch (e) { }
+
+      // Aksi takdirde baseUrl'e (genellikle /login veya ana sayfa) dön
       return baseUrl;
     },
   },
 });
-
