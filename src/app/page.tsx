@@ -9,31 +9,8 @@ import { MobilePreview } from "@/components/landing/mobile-preview";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
 export default function HomePage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "QR Menü",
-    "operatingSystem": "Web",
-    "applicationCategory": "BusinessApplication",
-    "offers": {
-      "@type": "Offer",
-      "price": "500",
-      "priceCurrency": "TRY"
-    },
-    "description": "Restoran ve kafeler için modern, hızlı ve şık dijital QR menü sistemi.",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "150"
-    }
-  };
-
   return (
     <main className="min-h-screen bg-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       {/* Header/Navigation */}
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -83,7 +60,7 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-6xl md:text-8xl font-bold mb-8 leading-tight tracking-tight text-gray-900">
-              QR Menü İle Menünüzü
+              Menünüzü
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
                 Dijitalleştirin
@@ -795,5 +772,4 @@ export default function HomePage() {
     </main>
   );
 }
-
 

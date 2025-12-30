@@ -9,65 +9,40 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.qrmenurestoranim.com"),
-  title: {
-    default: "QR Menü - Dijital Menü Sistemi | QR Menüm",
-    template: "%s | QR Menü"
-  },
-  description: "Türkiye'nin en modern QR menü sistemi. Restoran, kafe ve oteller için temassız, hızlı ve şık dijital menü çözümleri. Hemen ücretsiz deneyin!",
+  title: "QR Menü - Dijital Menü Sistemi | QR Menüm ile Restoranınızı Dijitalleştirin",
+  description: "QR Menü sistemi ile restoranınızı dijitalleştirin. QR kod ile menü, dijital menü çözümleri, online menü oluşturma. Hızlı, modern ve kullanıcı dostu QR menüm platformu.",
   keywords: [
     "qr menü",
+    "qr menüm",
     "dijital menü",
+    "qr",
+    "menü",
     "qr kod menü",
-    "temassız menü",
-    "online menü",
     "restoran menü sistemi",
-    "kafe qr menü",
-    "ücretsiz qr menü",
+    "dijital restoran menüsü",
+    "online menü",
     "qr menü oluşturma",
-    "dijital yemek listesi",
-    "qr menü fiyatları",
-    "modern qr menü",
-    "temassız sipariş sistemi"
+    "restoran dijitalleşme",
+    "temassız menü",
+    "akıllı menü",
+    "restoran qr kod",
   ],
-  authors: [{ name: "QR Menü Ekibi" }],
+  authors: [{ name: "QR Menü" }],
   creator: "QR Menü",
   publisher: "QR Menü",
-  alternates: {
-    canonical: "/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "https://www.qrmenurestoranim.com",
-    title: "QR Menü - Restoranınızı Dijitalleştirin",
-    description: "Modern, hızlı ve şık QR menü deneyimi. Müşterileriniz telefonlarıyla menünüze anında ulaşsın.",
+    url: "https://qrmenurestoranim.com",
+    title: "QR Menü - Dijital Menü Sistemi",
+    description: "Restoranınızı dijitalleştirin. Modern QR menü çözümleri ile müşterilerinize kusursuz bir deneyim sunun.",
     siteName: "QR Menü",
-    images: [
-      {
-        url: "/og-image.png", // Henüz yok ama plana dahil edilebilir
-        width: 1200,
-        height: 630,
-        alt: "QR Menü Dijital Sistem"
-      }
-    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "QR Menü - Dijital Menü Sistemi",
     description: "Restoranınızı dijitalleştirin. Modern QR menü çözümleri.",
-    images: ["/og-image.png"],
   },
   verification: {
     google: "gqI1oAptosk3Vj0olsh8KX3q1SELmns5ChD3JZaUSSg",

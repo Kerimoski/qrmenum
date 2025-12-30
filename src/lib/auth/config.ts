@@ -19,64 +19,47 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Şifre", type: "password" },
       },
       async authorize(credentials) {
-        console.log("🔑 [AUTH SERVER] Authorize denemesi başladı:", credentials?.email);
-
         if (!credentials?.email || !credentials?.password) {
-          console.warn("⚠️ [AUTH SERVER] Eksik bilgi: email veya şifre yok");
           return null;
         }
 
-        try {
-          // Kullanıcıyı veritabanından bul
-          const user = await prisma.user.findUnique({
-            where: {
-              email: (credentials.email as string).trim(),
-            },
-            include: {
-              restaurant: true,
-            },
-          });
+        // Kullanıcıyı veritabanından bul
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email as string,
+          },
+          include: {
+            restaurant: true,
+          },
+        });
 
-          if (!user) {
-            console.warn("❌ [AUTH SERVER] Kullanıcı bulunamadı:", credentials.email);
-            return null;
-          }
-
-          if (!user.isActive) {
-            console.warn("🚫 [AUTH SERVER] Kullanıcı hesabı pasif:", credentials.email);
-            return null;
-          }
-
-          // Şifre kontrolü
-          const isPasswordValid = await compare(
-            credentials.password as string,
-            user.password
-          );
-
-          if (!isPasswordValid) {
-            console.warn("❌ [AUTH SERVER] Şifre hatalı:", credentials.email);
-            return null;
-          }
-
-          // Son giriş zamanını güncelle
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { lastLoginAt: new Date() },
-          });
-
-          console.log("✅ [AUTH SERVER] Authorize başarılı! Rol:", user.role);
-
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-            restaurantId: user.restaurant?.id,
-          };
-        } catch (error) {
-          console.error("💥 [AUTH SERVER] Kritik hata:", error);
-          throw error;
+        if (!user || !user.isActive) {
+          return null;
         }
+
+        // Şifre kontrolü
+        const isPasswordValid = await compare(
+          credentials.password as string,
+          user.password
+        );
+
+        if (!isPasswordValid) {
+          return null;
+        }
+
+        // Son giriş zamanını güncelle
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLoginAt: new Date() },
+        });
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          restaurantId: user.restaurant?.id,
+        };
       },
     }),
   ],
@@ -121,18 +104,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Göreli URL'lere izin ver
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-
-      // Aynı origin'deki URL'lere izin ver
-      try {
-        const urlObj = new URL(url);
-        const baseObj = new URL(baseUrl);
-        if (urlObj.origin === baseObj.origin) return url;
-      } catch (e) {
-        // Geçersiz URL durumunda baseUrl'e dön
+      // Eğer url localhost içeriyorsa ve biz de localhost'taysak izin ver
+      if (url.includes("localhost") && baseUrl.includes("localhost")) {
+        return url.startsWith("/") ? `${baseUrl}${url}` : url;
       }
 
+      // Production'da localhost yönlendirmesini engelle
+      if (url.includes("localhost") && !baseUrl.includes("localhost")) {
+        return `${baseUrl}/login`;
+      }
+
+      // callbackUrl parametresini onurlandır
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
   },

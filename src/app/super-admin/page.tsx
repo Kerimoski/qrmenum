@@ -1,6 +1,4 @@
 import { auth } from "@/lib/auth/config";
-export const dynamic = "force-dynamic";
-
 import { prisma } from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

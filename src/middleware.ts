@@ -5,7 +5,6 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   // Temel güvenlik header'ları
-  response.headers.set("X-Frame-Options", "SAMEORIGIN");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
 

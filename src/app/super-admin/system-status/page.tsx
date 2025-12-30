@@ -1,5 +1,4 @@
 import { auth } from "@/lib/auth/config";
-
 import { prisma } from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -318,8 +317,8 @@ export default async function SystemStatusPage() {
                 </div>
                 <div
                   className={`w-full rounded-t transition-all ${hour.count > 0
-                    ? "bg-gradient-to-t from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500"
-                    : "bg-gray-200"
+                      ? "bg-gradient-to-t from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500"
+                      : "bg-gray-200"
                     }`}
                   style={{
                     height: `${(hour.count / maxHourlyViews) * 100}%`,
