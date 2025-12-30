@@ -104,14 +104,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Eğer url localhost içeriyorsa veya sadece base URL ise yönlendir
-      if (url.includes("localhost")) {
-        return `${baseUrl}/login`;
-      }
-      // callbackUrl parametresini onurlandır ama her zaman baseUrl altında kaldığından emin ol
+      // Göreli URL'lere izin ver
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) return url;
-      return `${baseUrl}/login`;
+
+      // Aynı origin'deki URL'lere izin ver
+      try {
+        const urlObj = new URL(url);
+        const baseObj = new URL(baseUrl);
+        if (urlObj.origin === baseObj.origin) return url;
+      } catch (e) {
+        // Geçersiz URL durumunda baseUrl'e dön
+      }
+
+      return baseUrl;
     },
   },
 });
