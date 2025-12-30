@@ -79,7 +79,6 @@ export default async function SuperAdminPage() {
           select: {
             products: true,
             categories: true,
-            views: true,
           },
         },
       },
