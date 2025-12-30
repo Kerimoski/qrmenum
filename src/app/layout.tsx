@@ -44,6 +44,9 @@ export const metadata: Metadata = {
     title: "QR Menü - Dijital Menü Sistemi",
     description: "Restoranınızı dijitalleştirin. Modern QR menü çözümleri.",
   },
+  verification: {
+    google: "gqI1oAptosk3Vj0olsh8KX3q1SELmns5ChD3JZaUSSg",
+  },
 };
 
 export default function RootLayout({
