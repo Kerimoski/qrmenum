@@ -47,13 +47,20 @@ export default async function MenuPage({ params }: { params: Promise<{ slug: str
 
     // Görüntülenme kaydı oluştur (Non-blocking)
     if (restaurant) {
-        prisma.menuView.create({
-            data: {
-                restaurantId: restaurant.id,
-                userAgent: "Web",
-                language: "tr",
-            },
-        }).catch(() => { });
+        // Hem MenuView kaydı oluştur hem de Restaurant tablosundaki sayacı artır
+        prisma.$transaction([
+            prisma.menuView.create({
+                data: {
+                    restaurantId: restaurant.id,
+                    userAgent: "Web",
+                    language: "tr",
+                },
+            }),
+            prisma.restaurant.update({
+                where: { id: restaurant.id },
+                data: { viewCount: { increment: 1 } }
+            })
+        ]).catch(() => { });
     }
 
     // Veriyi serileştir (Decimal problemini çözmek için)

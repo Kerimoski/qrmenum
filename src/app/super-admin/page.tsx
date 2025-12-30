@@ -83,7 +83,8 @@ export default async function SuperAdminPage() {
           },
         },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { viewCount: 'desc' },
+      take: 10,
     }),
 
     // Kullanıcılar
@@ -140,10 +141,8 @@ export default async function SuperAdminPage() {
     ? Math.round(totalViews / totalRestaurants)
     : 0;
 
-  // En popüler restoranlar
-  const topRestaurants = [...allRestaurants]
-    .sort((a, b) => b._count.views - a._count.views)
-    .slice(0, 5);
+  // En popüler restoranlar (Zaten veritabanından sıralı geliyor)
+  const topRestaurants = allRestaurants.slice(0, 5);
 
   // Son 7 gün için günlük dağılım
   const dailyViewsData = await Promise.all(
@@ -452,7 +451,7 @@ export default async function SuperAdminPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-blue-600">{restaurant._count.views.toLocaleString()}</div>
+                      <div className="font-bold text-blue-600">{restaurant.viewCount.toLocaleString()}</div>
                       <div className="text-xs text-gray-500">görüntülenme</div>
                     </div>
                   </div>
