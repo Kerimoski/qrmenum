@@ -25,18 +25,30 @@ export default function DemoLoginPage() {
     const [loading, setLoading] = useState<string | null>(null);
 
     const handleDemoLogin = async (email: string, password: string, name: string) => {
+        console.log(`🚀 [DEMO DEBUG] Demo giriş denemesi: ${name} (${email})`);
         setLoading(email);
 
-        const result = await signIn("credentials", {
-            email,
-            password,
-            redirect: false,
-        });
+        try {
+            const result = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
 
-        if (result?.ok) {
-            router.push("/dashboard");
-        } else {
-            alert("Giriş başarısız!");
+            console.log("📊 [DEMO DEBUG] signIn sonucu:", result);
+
+            if (result?.ok) {
+                console.log("✅ [DEMO DEBUG] Giriş başarılı! Yönlendiriliyor...");
+                window.location.href = "/dashboard";
+            } else {
+                console.error("❌ [DEMO DEBUG] Giriş başarısız:", result?.error);
+                alert("Giriş başarısız: " + (result?.error || "Bilinmeyen hata"));
+            }
+        } catch (error) {
+            console.error("💥 [DEMO DEBUG] Kritik hata:", error);
+            alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+        } finally {
+            console.log("🏁 [DEMO DEBUG] İşlem tamamlandı.");
             setLoading(null);
         }
     };
