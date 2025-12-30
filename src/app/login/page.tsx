@@ -18,46 +18,53 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("🚀 [DEBUG] Giriş butona tıklandı. Email:", email);
     setError("");
     setIsLoading(true);
 
     try {
-      console.log("🔐 Giriş denemesi başladı:", email);
-      
+      console.log("🔐 [DEBUG] signIn('credentials') çağrılıyor...");
+
       const result = await signIn("credentials", {
-        email,
-        password,
+        email: email.trim(),
+        password: password,
         redirect: false,
       });
 
-      console.log("📊 SignIn sonucu:", result);
+      console.log("📊 [DEBUG] signIn sonucu dönüd:", result);
 
       if (result?.error) {
-        console.error("❌ Giriş hatası:", result.error);
-        setError("Email veya şifre hatalı");
-      } else if (result?.ok) {
-        console.log("✅ Giriş başarılı! Yönlendiriliyor...");
-        
-        // Session'ı al ve role göre yönlendir
-        const response = await fetch("/api/auth/session");
-        const session = await response.json();
-        
-        if (session?.user?.role === "SUPER_ADMIN") {
-          console.log("👑 Super Admin - /super-admin'e yönlendiriliyor");
-          router.push("/super-admin");
+        console.error("❌ [DEBUG] Giriş hatası:", result.error);
+        if (result.error === "CredentialsSignin") {
+          setError("Email veya şifre hatalı");
         } else {
-          console.log("🍽️ Restaurant Owner - /dashboard'a yönlendiriliyor");
-          router.push("/dashboard");
+          setError("Giriş başarısız: " + result.error);
         }
-        router.refresh();
+      } else if (result?.ok) {
+        console.log("✅ [DEBUG] Giriş başarılı! Session kontrol ediliyor...");
+
+        const response = await fetch("/api/auth/session");
+        if (!response.ok) throw new Error("Session fetch failed");
+
+        const session = await response.json();
+        console.log("👤 [DEBUG] Mevcut session:", session);
+
+        if (session?.user?.role === "SUPER_ADMIN") {
+          console.log("👑 [DEBUG] Super Admin - Yönlendiriliyor: /super-admin");
+          window.location.href = "/super-admin";
+        } else {
+          console.log("🍽️ [DEBUG] Restaurant Owner - Yönlendiriliyor: /dashboard");
+          window.location.href = "/dashboard";
+        }
       } else {
-        console.error("⚠️ Beklenmeyen durum:", result);
-        setError("Bir hata oluştu. Lütfen tekrar deneyin.");
+        console.error("⚠️ [DEBUG] Beklenmeyen durum:", result);
+        setError("Bilinmeyen bir hata oluştu.");
       }
-    } catch (error) {
-      console.error("💥 Exception:", error);
-      setError("Bir hata oluştu. Lütfen tekrar deneyin.");
+    } catch (err: any) {
+      console.error("💥 [DEBUG] Exception yakalandı:", err);
+      setError("Bağlantı hatası veya sistemsel bir sorun oluştu.");
     } finally {
+      console.log("🏁 [DEBUG] Login işlemi tamamlandı.");
       setIsLoading(false);
     }
   };
