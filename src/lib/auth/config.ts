@@ -126,6 +126,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // baseUrl'in sonundaki slash'ı temizle
       const normalizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 
+      // Production ortamında localhost yönlendirmesini kesinlikle engelle
+      if (process.env.NODE_ENV === "production" && url.includes("localhost")) {
+        return `${normalizedBase}/login`;
+      }
+
       // Göreli URL'ler için (/dashboard gibi)
       if (url.startsWith("/")) return `${normalizedBase}${url}`;
 

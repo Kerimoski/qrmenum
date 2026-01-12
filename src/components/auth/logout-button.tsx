@@ -9,11 +9,10 @@ export function LogoutButton() {
     <Button
       variant="ghost"
       size="sm"
-      onClick={() => signOut({ callbackUrl: `${window.location.origin}/login` })}
+      onClick={() => signOut({ callbackUrl: window.location.origin })}
     >
       <LogOut className="w-4 h-4 mr-2" />
       Çıkış Yap
     </Button>
   );
-}
 
