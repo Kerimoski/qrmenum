@@ -15,4 +15,5 @@ export function LogoutButton() {
       Çıkış Yap
     </Button>
   );
+}
 
