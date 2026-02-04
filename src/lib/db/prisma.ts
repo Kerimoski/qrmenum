@@ -8,7 +8,8 @@ const globalForPrisma = globalThis as unknown as {
 const getDatabaseUrl = () => {
   const url = process.env.DATABASE_URL || '';
   const separator = url.includes('?') ? '&' : '?';
-  return `${url}${separator}pgbouncer=true&connection_limit=1`;
+  // Connection limit'i artırdık (özellikle super admin sayfası için)
+  return `${url}${separator}pgbouncer=true&connection_limit=20`;
 };
 
 export const prisma =
